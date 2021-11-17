@@ -1,9 +1,10 @@
 const path = require('path');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
-	module.exports = {
+module.exports = {
   entry: './src/index.js',
   output: {
     filename: 'bundle.js',
@@ -11,16 +12,17 @@ const Dotenv = require('dotenv-webpack');
   },
   devtool: 'eval-source-map',
   devServer: {
-    contentBase: './dist'
+    static: './dist'      
   },
   plugins: [
-    new Dotenv(),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'Shape Tracker',
+      title: 'Dino Ipsum',
       template: './src/index.html',
       inject: 'body'
-    })
+    }),
+    new ESLintPlugin(),
+    new Dotenv()
   ],
   module: {
     rules: [
@@ -32,9 +34,8 @@ const Dotenv = require('dotenv-webpack');
         ]
       },
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: "eslint-loader"
+        test: /\.txt/,
+        type: 'asset/source'
       }
     ]
   }
